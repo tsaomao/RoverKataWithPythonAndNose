@@ -56,3 +56,18 @@ class TestRover:
     rv.startRover((10, 5), "Elephant")
     rv.turnLeft()
     
+
+class TestWorldGrid:
+
+  def testWorldGridCreation(self):
+    wg = WorldGrid([(1, 1), (-1, -1), (2, 1)])
+    assert_is_instance(wg, WorldGrid) 
+    assert_equal([(1, 1), (-1, -1), (2, 1)], wg.obstacleGrid)
+
+  def testIsBlocked(self):
+    wg = WorldGrid([(1, 1), (-1, -1), (2, 1)])
+    assert_equal(True, wg.isBlocked((-1, -1)))
+    assert_equal(False, wg.isBlocked((0, 0)))
+    
+
+  

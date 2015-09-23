@@ -54,4 +54,14 @@ class WorldGrid:
   """WorldGrid class will return information about the world including whether there exists
   an obstacle at a specified tuple. WorldGrid is 2 dimensional, but may be refactored to other dimensions and/or
   general properties and behavior."""
+  obstacleGrid = []
 
+  def __init__(self, obstacles):
+    self.obstacleGrid = []
+    self.obstacleGrid.extend(obstacles)
+
+  def isBlocked(self, proposedTuple):
+    if (proposedTuple in self.obstacleGrid):
+      return True
+    else:
+      return False
