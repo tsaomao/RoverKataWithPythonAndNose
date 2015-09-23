@@ -38,3 +38,21 @@ class TestRover:
     rv.startRover((10, 5), "Elephant")
     rv.turnRight()
     
+  def testRoverTurnLeft(self):
+    rv = Rover()
+    assert_equal("North", rv.facing)
+    rv.turnLeft()
+    assert_equal("West", rv.facing)
+    rv.turnLeft()
+    assert_equal("South", rv.facing)
+    rv.turnLeft()
+    assert_equal("East", rv.facing)
+    rv.turnLeft()
+    assert_equal("North", rv.facing)
+
+  @raises(ValueError)
+  def testRoverTurnLeftException(self):
+    rv = Rover()
+    rv.startRover((10, 5), "Elephant")
+    rv.turnLeft()
+    

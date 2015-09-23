@@ -34,6 +34,20 @@ class Rover:
       self.facing = "North"
     else:
       raise ValueError('Facing value not in ["North", "South", "East", "West"]')
+
+  def turnLeft(self):
+    """turnLeft() method spins rover counter-clockwise (as seen from above) 90 degrees on each command. Basic validation of
+    self.facing values is done here, with an unknown value raising an exception. Probably needs refactoring."""
+    if (self.facing == "North"):
+      self.facing = "West"
+    elif (self.facing == "West"):
+      self.facing = "South"
+    elif (self.facing == "South"):
+      self.facing = "East"
+    elif (self.facing == "East"):
+      self.facing = "North"
+    else:
+      raise ValueError('Facing value not in ["North", "South", "East", "West"]')
   
 
 class WorldGrid:
