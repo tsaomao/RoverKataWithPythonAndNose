@@ -1,7 +1,12 @@
 """Module to implement Rover Kata. See README.md for more information.
 
 To do:
-- refactor to validate/raise exception on self.facing not as expected in a central place, probably __init__()"""
+- write real description instead of to-do list and put it here.
+- refactor to validate/raise exception on self.facing not as expected in a central place, probably __init__()
+- parse incoming command strings as sequences of moveForward(), moveBackward(), turnRight(), and turnLeft()
+- to better simulate real-worldness, possibly keep rover position in the WorldGrid and keep an instance of that in the Rover class?
+  - or vice versa? It's getting philosophical around here: Is a thing's position absolute and held by the world or is it
+    envisioned and held by the thing?"""
 
 class Rover:
   """Rover class to fulfill Rover Kata.
@@ -23,6 +28,43 @@ class Rover:
     self.positionX = startingCoords[0]
     self.positionY = startingCoords[1]
     self.facing = startingFace
+
+  def parseCommandString(self, commandString, wgInst):
+    """Takes commandString as string of concatenated single character commands: ['f', 'b', 'l', 'r']
+    and parses through them with appropriate Rover commands. Also takes wgInst as an instance of WorldGrid(), populated with
+    a list of obstacles' coordinate Tuple."""
+    commandList = list(commandString)
+    moveResult = True
+    
+    for command in commandList:
+      if (command == 'f'):
+        moveResult = self.moveForward(wgInst)
+        # moveResult is True if no obstacle reported.
+        if (moveResult == True):
+          continue
+        else:
+          break
+      elif (command == 'b'):
+        moveResult = self.moveBackward(wgInst)
+        # moveResult is True if no obstacle reported.
+        if (moveResult == True):
+          continue
+        else:
+          break
+      elif (command == 'l'):
+        self.turnLeft()
+      elif (command == 'r'):
+        self.turnRight()
+      else:
+        #throw exception if command is not recognized/valid
+        raise CommandValidationError("Command value %r not in ['f', 'b', 'l', 'r']" % command)
+
+    if (moveResult == True):
+      # command string parse successful. Report result.
+      return True, "Commands successful." 
+    else:
+      # command string parse unsuccessful. Report result.
+      return False, "Commands aborted. Obstacle encountered."
 
   def turnRight(self):
     """turnRight() method spins rover clockwise (as seen from above) 90 degrees on each command. Basic validation of
@@ -133,3 +175,6 @@ class WorldGrid:
       return True
     else:
       return False
+
+class CommandValidationError(Exception):
+  pass

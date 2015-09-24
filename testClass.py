@@ -76,7 +76,27 @@ class TestRover:
     assert_equal(10, rv.positionX)
     assert_equal(4, rv.positionY)
 
-    
+  def testRoverCommands(self):
+    wg = WorldGrid([(1, 1), (-1, -1), (2, 1), (10, 6)])
+    rv = Rover()
+    rv.startRover((8, 4), "North")
+    resultBool, resultString = rv.parseCommandString("frff", wg)
+    assert_equal(True, resultBool)
+    assert_equal("Commands successful.", resultString)
+    assert_equal(10, rv.positionX)
+    assert_equal(5, rv.positionY)
+    resultBool, resultString = rv.parseCommandString("lf", wg)
+    assert_equal(False, resultBool)
+    assert_equal("Commands aborted. Obstacle encountered.", resultString)
+    assert_equal(10, rv.positionX)
+    assert_equal(5, rv.positionY)
+
+  @raises(CommandValidationError)  
+  def testRoverCommandException(self):
+    wg = WorldGrid([(1, 1), (-1, -1), (2, 1), (10, 6)])
+    rv = Rover()
+    rv.startRover((8, 4), "North")
+    resultBool, resultString = rv.parseCommandString("mff", wg)
     
 
 class TestWorldGrid:
@@ -93,3 +113,8 @@ class TestWorldGrid:
     
 
   
+class TestExceptions:
+
+  def testCommandValidationError(self):
+    ex = CommandValidationError()
+    assert_is_instance(ex, CommandValidationError) 
