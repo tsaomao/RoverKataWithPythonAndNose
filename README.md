@@ -5,7 +5,7 @@ methods and attributes, I will also code unit tests and write comments meant bot
 code, testing and documentation assets.
 
 Still to do:
-- Implement wrapping for the world grid
+- Implement validation for values in world grid against world extents
 - Consider refactoring so the world grid specifically contains and tracks the Rover object's position
 - refactor to validate/raise exception on self.facing not as expected in a central place, probably __init__()
 

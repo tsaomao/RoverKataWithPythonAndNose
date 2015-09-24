@@ -16,13 +16,15 @@ class Rover:
   positionX = 0
   positionY = 0
   facing = "North"
+  worldWrapExtents = 100
 
-  def startRover(self, startingCoords, startingFace):
+  def startRover(self, startingCoords, startingFace, worldExtents):
     """Rover given a startRover() command is moved to specific startingCoords tuple (positionX, positionY) with specified
     startingFace facing. No validation of incoming values here."""
     self.positionX = startingCoords[0]
     self.positionY = startingCoords[1]
     self.facing = startingFace
+    self.worldWrapExtents = worldExtents
 
   def parseCommandString(self, commandString, wgInst):
     """Takes commandString as string of concatenated single character commands: ['f', 'b', 'l', 'r']
@@ -111,6 +113,23 @@ class Rover:
     else:
       raise ValueError('Facing value not in ["North", "South", "East", "West"]')
 
+    # implement worldWrap
+    if (proposedCoords[0] > self.worldWrapExtents):
+      tempTuple = ((proposedCoords[0] - (2 * self.worldWrapExtents + 1)), proposedCoords[1])
+      proposedCoords = tempTuple
+
+    if (proposedCoords[0] < -(self.worldWrapExtents)):
+      tempTuple = ((proposedCoords[0] + (2 * self.worldWrapExtents + 1)), proposedCoords[1])
+      proposedCoords = tempTuple
+
+    if (proposedCoords[1] > self.worldWrapExtents):
+      tempTuple = (proposedCoords[0], (proposedCoords[1] - (2 * self.worldWrapExtents + 1)))
+      proposedCoords = tempTuple
+
+    if (proposedCoords[1] < -(self.worldWrapExtents)):
+      tempTuple = (proposedCoords[0], (proposedCoords[1] + (2 * self.worldWrapExtents + 1)))
+      proposedCoords = tempTuple
+
     if (wgInst.isBlocked(proposedCoords)):
       # May want to refactor as a custom exception or return value.
       # Also may want to provide more information about obstacle (coords, move-from point, etc)
@@ -143,6 +162,23 @@ class Rover:
     else:
       raise ValueError('Facing value not in ["North", "South", "East", "West"]')
 
+    # implement worldWrap
+    if (proposedCoords[0] > self.worldWrapExtents):
+      tempTuple = ((proposedCoords[0] - (2 * self.worldWrapExtents + 1)), proposedCoords[1])
+      proposedCoords = tempTuple
+
+    if (proposedCoords[0] < -(self.worldWrapExtents)):
+      tempTuple = ((proposedCoords[0] + (2 * self.worldWrapExtents + 1)), proposedCoords[1])
+      proposedCoords = tempTuple
+
+    if (proposedCoords[1] > self.worldWrapExtents):
+      tempTuple = (proposedCoords[0], (proposedCoords[1] - (2 * self.worldWrapExtents + 1)))
+      proposedCoords = tempTuple
+
+    if (proposedCoords[1] < -(self.worldWrapExtents)):
+      tempTuple = (proposedCoords[0], (proposedCoords[1] + (2 * self.worldWrapExtents + 1)))
+      proposedCoords = tempTuple
+
     if (wgInst.isBlocked(proposedCoords)):
       # May want to refactor as a custom exception or return value.
       # Also may want to provide more information about obstacle (coords, move-from point, etc)
@@ -160,12 +196,30 @@ class WorldGrid:
   an obstacle at a specified tuple. WorldGrid is 2 dimensional, but may be refactored to other dimensions and/or
   general properties and behavior."""
   obstacleGrid = []
+  worldWrapExtents = 100
 
-  def __init__(self, obstacles):
+  def __init__(self, obstacles, extents):
     self.obstacleGrid = []
     self.obstacleGrid.extend(obstacles)
+    self.worldWrapExtents = extents
 
   def isBlocked(self, proposedTuple):
+    if (proposedTuple[0] > self.worldWrapExtents):
+      tempTuple = ((proposedTuple[0] - (2 * self.worldWrapExtents + 1)), proposedTuple[1])
+      proposedTuple = tempTuple
+
+    if (proposedTuple[0] < -(self.worldWrapExtents)):
+      tempTuple = ((proposedTuple[0] + (2 * self.worldWrapExtents + 1)), proposedTuple[1])
+      proposedTuple = tempTuple
+
+    if (proposedTuple[1] > self.worldWrapExtents):
+      tempTuple = (proposedTuple[0], (proposedTuple[1] - (2 * self.worldWrapExtents + 1)))
+      proposedTuple = tempTuple
+
+    if (proposedTuple[1] < -(self.worldWrapExtents)):
+      tempTuple = (proposedTuple[0], (proposedTuple[1] + (2 * self.worldWrapExtents + 1)))
+      proposedTuple = tempTuple
+
     if (proposedTuple in self.obstacleGrid):
       return True
     else:
