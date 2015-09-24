@@ -1,4 +1,7 @@
-"""Module to implement Rover Kata. See README.md for more information."""
+"""Module to implement Rover Kata. See README.md for more information.
+
+To do:
+- refactor to validate/raise exception on self.facing not as expected in a central place, probably __init__()"""
 
 class Rover:
   """Rover class to fulfill Rover Kata.
@@ -48,6 +51,71 @@ class Rover:
       self.facing = "North"
     else:
       raise ValueError('Facing value not in ["North", "South", "East", "West"]')
+
+  def moveForward(self, wgInst):
+    """moveForward() method projects next block coords, uses the WorldGrid object to validate that this is possible, and,
+    depending on the facing, increments or decrements the positionX or positionY attribute by one.
+
+    For purposes of this function these are the increments/decrements for a given facing:
+    - North: increment positionY
+    - South: decrement positionY
+    - East: increment positionX
+    - West: decrement positionX
+
+    Takes an instance of WorldGrid for access to the WorldGrid().isBlocked() method."""
+    if (self.facing == "North"):
+      proposedCoords = (self.positionX, self.positionY + 1)
+    elif (self.facing == "South"):
+      proposedCoords = (self.positionX, self.positionY - 1)
+    elif (self.facing == "East"):
+      proposedCoords = (self.positionX + 1, self.positionY)
+    elif (self.facing == "West"):
+      proposedCoords = (self.positionX - 1, self.positionY)
+    else:
+      raise ValueError('Facing value not in ["North", "South", "East", "West"]')
+
+    if (wgInst.isBlocked(proposedCoords)):
+      # May want to refactor as a custom exception or return value.
+      # Also may want to provide more information about obstacle (coords, move-from point, etc)
+      print "moveForward() command blocked by obstacle in front of rover."
+      return False
+    else:
+      self.positionX = proposedCoords[0]
+      self.positionY = proposedCoords[1]
+      return True
+    
+  def moveBackward(self, wgInst):
+    """moveBackwawrd() method projects next block coords, uses the WorldGrid object to validate that this is possible, and,
+    depending on the facing, increments or decrements the positionX or positionY attribute by one.
+
+    For purposes of this function these are the increments/decrements for a given facing:
+    - North: decrement positionY
+    - South: increment positionY
+    - East: decrement positionX
+    - West: increment positionX
+
+    Takes an instance of WorldGrid for access to the WorldGrid().isBlocked() method."""
+    if (self.facing == "North"):
+      proposedCoords = (self.positionX, self.positionY - 1)
+    elif (self.facing == "South"):
+      proposedCoords = (self.positionX, self.positionY + 1)
+    elif (self.facing == "East"):
+      proposedCoords = (self.positionX - 1, self.positionY)
+    elif (self.facing == "West"):
+      proposedCoords = (self.positionX + 1, self.positionY)
+    else:
+      raise ValueError('Facing value not in ["North", "South", "East", "West"]')
+
+    if (wgInst.isBlocked(proposedCoords)):
+      # May want to refactor as a custom exception or return value.
+      # Also may want to provide more information about obstacle (coords, move-from point, etc)
+      print "moveBackward() command blocked by obstacle behind rover."
+      return False
+    else:
+      self.positionX = proposedCoords[0]
+      self.positionY = proposedCoords[1]
+      return True
+
   
 
 class WorldGrid:

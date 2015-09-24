@@ -55,6 +55,28 @@ class TestRover:
     rv = Rover()
     rv.startRover((10, 5), "Elephant")
     rv.turnLeft()
+
+  def testRoverMoveForward(self):
+    wg1 = WorldGrid([(1, 1), (-1, -1), (2, 1), (10, 6)])
+    wg2 = WorldGrid([(1, 1), (-1, -1), (2, 1), (10, 4)])
+    rv = Rover()
+    rv.startRover((10, 5), "South")
+    assert_equal(False, rv.moveForward(wg2))
+    assert_equal(True, rv.moveForward(wg1))
+    assert_equal(10, rv.positionX)
+    assert_equal(4, rv.positionY)
+
+  def testRoverMoveBackward(self):
+    wg1 = WorldGrid([(1, 1), (-1, -1), (2, 1), (10, 6)])
+    wg2 = WorldGrid([(1, 1), (-1, -1), (2, 1), (10, 4)])
+    rv = Rover()
+    rv.startRover((10, 5), "North")
+    assert_equal(False, rv.moveBackward(wg2))
+    assert_equal(True, rv.moveBackward(wg1))
+    assert_equal(10, rv.positionX)
+    assert_equal(4, rv.positionY)
+
+    
     
 
 class TestWorldGrid:
