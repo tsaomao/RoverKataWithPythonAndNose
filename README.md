@@ -4,7 +4,12 @@ Goal for me is not only to program this kata in Python but also to apply test-dr
 methods and attributes, I will also code unit tests and write comments meant both for internal use and for Python docstrings. And finally, I will do frequent commits and pushes of these 
 code, testing and documentation assets.
 
-Problem statement:
+Still to do:
+- Implement wrapping for the world grid
+- Consider refactoring so the world grid specifically contains and tracks the Rover object's position
+- refactor to validate/raise exception on self.facing not as expected in a central place, probably __init__()
+
+Original Problem statement:
 From http://amirrajan.net/Blog/code-katas-mars-rover
 
 - Develop an api that moves a rover around a grid.

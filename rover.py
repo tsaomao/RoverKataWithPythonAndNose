@@ -1,12 +1,7 @@
 """Module to implement Rover Kata. See README.md for more information.
 
-To do:
-- write real description instead of to-do list and put it here.
-- refactor to validate/raise exception on self.facing not as expected in a central place, probably __init__()
-- parse incoming command strings as sequences of moveForward(), moveBackward(), turnRight(), and turnLeft()
-- to better simulate real-worldness, possibly keep rover position in the WorldGrid and keep an instance of that in the Rover class?
-  - or vice versa? It's getting philosophical around here: Is a thing's position absolute and held by the world or is it
-    envisioned and held by the thing?"""
+Rover kata implements a thing that moves around a coordinate 2D grid, possibly encountering obstacles and reporting them. Developed in
+conjunction with nose testing framework in a test-driven development discipline."""
 
 class Rover:
   """Rover class to fulfill Rover Kata.
