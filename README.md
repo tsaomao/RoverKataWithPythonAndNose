@@ -1,15 +1,26 @@
-Approach and Strategy notes:
+#Status
+
+I consider the first pass here complete. This project meets the requirements set in the original problem statement.
+
+There is a somewhat interesting problem in designing the most efficient and most understandable division of labor between the Rover() and WorldGrid() classes in tracking the Rover()'s position.
+
+For now there's a hybrid approach, where each handles its own interactions with and tracks its own perception of the rover's position. If I want to follow true OOP design, I should condense it to the WorldGrid() class. But this increases inter-object chattiness and, I think, is in some ways harder to read. The weird thing about my current approach is that Rover position in the WorldGrid() class is essentially stateless, which makes it easier for WorldGrid() to do its thing, but does not really follow OOP protocol. On the other hand, philosophically, there's evidence in the real world that perception does not equal fact, so it's possible that having the rover and the worldgrid track the rover independently is more realistic. :)
+
+Anyhow, there are some other minor things to refactor as well (see "Still to do" below), but I consider them minor. A kata is to practice doing things a certain way, and this kata is especially for doing Test Driven Development with Python and the nose testing framework. It's not for demonstrating strict OOP principles.
+
+#Approach and Strategy notes:
 
 Goal for me is not only to program this kata in Python but also to apply test-driven development principles as well as good source control and commenting hygeine, so as I code the classes, 
 methods and attributes, I will also code unit tests and write comments meant both for internal use and for Python docstrings. And finally, I will do frequent commits and pushes of these 
 code, testing and documentation assets.
 
-Still to do:
+##Still to do:
 - Implement validation for values in world grid against world extents
 - Consider refactoring so the world grid specifically contains and tracks the Rover object's position
-- refactor to validate/raise exception on self.facing not as expected in a central place, probably __init__()
+- Refactor to validate/raise exception on self.facing not as expected in a central place, probably __init__()
+- Refactor so that only the WorldGrid stores extents/wraparound information
 
-Original Problem statement:
+#Original Problem statement:
 From http://amirrajan.net/Blog/code-katas-mars-rover
 
 - Develop an api that moves a rover around a grid.
